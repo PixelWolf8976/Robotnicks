@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4akq1kofcwiy"]
+
+[ext_resource type="Script" path="res://Scripts/UI.gd" id="1_anh2n"]
+[ext_resource type="Texture2D" uid="uid://dcb4x4rwc7nv5" path="res://Resources/Stamina bar.png" id="1_vidi6"]
+[ext_resource type="Texture2D" uid="uid://ccpd4cirmsy0c" path="res://Resources/Laser.png" id="2_2t7ye"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_anh2n")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0477431
+anchor_top = 0.891975
+anchor_right = 0.153924
+anchor_bottom = 0.909222
+offset_right = -0.32
+offset_bottom = -0.176003
+step = 0.05
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_2t7ye")
+texture_progress = ExtResource("1_vidi6")
+metadata/_edit_use_anchors_ = true

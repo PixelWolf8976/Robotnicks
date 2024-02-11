@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl082pk00sdu0"]
+
+[ext_resource type="PackedScene" uid="uid://d273ovgky4n3" path="res://Objects/Player.tscn" id="1_oa450"]
+[ext_resource type="PackedScene" uid="uid://d4akq1kofcwiy" path="res://Objects/UI.tscn" id="2_6u5ba"]
+
+[node name="Node" type="Node"]
+
+[node name="Player" parent="." instance=ExtResource("1_oa450")]
+
+[node name="Control" parent="." instance=ExtResource("2_6u5ba")]
+
+[connection signal="staminaChanged" from="Player" to="Control" method="_on_player_stamina_changed"]

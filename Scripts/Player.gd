@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
+signal staminaChanged()
+
 @export var speed = 150.0
 @export var maxStamina = 100.0
-@export var staminaDeplete = 20.0
-@export var staminaRechargeSecWait = 5.0
+@export var staminaDeplete = 40.0
+@export var staminaRechargeSecWait = 2.0
 @export var staminaRecharge = 50.0
 @export var reloadRate = 0.5
 @export var bullet = preload("res://Objects/PlayerLaser.tscn")
@@ -11,7 +13,7 @@ extends CharacterBody2D
 var stamina = maxStamina
 var staminaBeingUsed = false
 var staminaTimer = 0.0
-var reloadTimer = 0.0
+var reloadTimer = 0.5
 
 func getInput(delta):
 	var inputDir = Input.get_vector("Move Left", "Move Right", "Move Up", "Move Down")
@@ -21,6 +23,8 @@ func getInput(delta):
 			stamina -= staminaDeplete * delta
 		elif stamina < 0:
 			stamina = 0
+		
+		emit_signal("staminaChanged", stamina)
 		
 		staminaTimer = 0.0
 		staminaBeingUsed = true
@@ -32,6 +36,7 @@ func getInput(delta):
 		stamina += staminaRecharge * delta
 		if stamina > maxStamina:
 			stamina = maxStamina
+		emit_signal("staminaChanged", stamina)
 	elif !staminaBeingUsed && stamina != maxStamina:
 		staminaTimer += delta
 	
@@ -47,6 +52,9 @@ func getInput(delta):
 			b.start($Muzzle.global_position, rotation)
 			get_tree().root.add_child(b)
 		else:
+			reloadTimer += delta
+	else:
+		if reloadTimer < reloadRate:
 			reloadTimer += delta
 
 # Called when the node enters the scene tree for the first time.
