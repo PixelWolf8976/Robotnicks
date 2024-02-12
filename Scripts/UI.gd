@@ -5,7 +5,7 @@ var bar
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	bar = $TextureProgressBar
-	var playerMaxStamina = $"../Player".maxStamina
+	var playerMaxStamina = $"../../Player".maxStamina
 	bar.max_value = playerMaxStamina
 	
 	pass # Replace with function body.

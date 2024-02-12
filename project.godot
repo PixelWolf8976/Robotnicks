@@ -14,6 +14,12 @@ config/name="Robotnicks"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://GODOT things/icon.svg"
 
+[importer_defaults]
+
+animation_library={
+"animation/fps": 60.0
+}
+
 [input]
 
 "Move Up"={
