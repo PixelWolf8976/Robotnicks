@@ -14,6 +14,8 @@
 top_level = true
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 script = ExtResource("3_32v1h")
 player = NodePath("../Player")
 
