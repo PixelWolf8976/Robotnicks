@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl082pk00sdu0"]
+[gd_scene load_steps=5 format=3 uid="uid://bl082pk00sdu0"]
 
 [ext_resource type="PackedScene" uid="uid://d273ovgky4n3" path="res://Objects/Player.tscn" id="1_oa450"]
 [ext_resource type="PackedScene" uid="uid://d4akq1kofcwiy" path="res://Objects/UI.tscn" id="2_6u5ba"]
 [ext_resource type="Script" path="res://Scripts/Camera2D.gd" id="3_32v1h"]
+[ext_resource type="PackedScene" uid="uid://q4a8coq45wt4" path="res://Objects/Generator.tscn" id="4_trivr"]
 
 [node name="Node" type="Node"]
 
@@ -18,5 +19,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("3_32v1h")
 player = NodePath("../Player")
+
+[node name="Generator" parent="." instance=ExtResource("4_trivr")]
 
 [connection signal="staminaChanged" from="Player" to="CanvasLayer/Control" method="_on_player_stamina_changed"]
