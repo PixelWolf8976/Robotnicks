@@ -1,11 +1,47 @@
 extends Node2D
 
-# $TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, tileId), 0)
+# $TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Copper), 0)
+
+enum TILES {Copper, Coal, Grass, SandToGrass, Sand, SandToWater, Stone, StoneToGrass, Water}
+
+@export var percentGrass = 0.0
+@export var percentSand = 0.0
+@export var percentStone = 0.0
+@export var PercentWater = 0.0
 
 func _ready():
-	generate(Vector2(500, 500))
+	randomize()
+	generateNoise(Vector2(100, 100))
 
-func generate(gridSize):
+func generateNoise(gridSize):
+	var noiseGen = FastNoiseLite.new()
+	noiseGen.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noiseGen.set_frequency(0.04)
+	
+	for x in range(1, gridSize.x - 1):
+		for y in range(1, gridSize.y - 1):
+			var layers = [0.05, 0.05, 0.3925, 0.11, 0.3925, 0.11, 0.3925, 0.11, 0.3925]
+			var noise = -1
+			if noiseGen.get_noise_2d(x, y) < -1 + (layers[0]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 0), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 1), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 6), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 7), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 2), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 3), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 4), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6] + layers[7]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 5), 0)
+			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6] + layers[7] + layers[8]):
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 8), 0)
+
+func generateWaveFunctionCollapse(gridSize):
 	# Generate grid
 	var tileData = []
 	
@@ -91,6 +127,7 @@ func generate(gridSize):
 						elif neighbor == 8:
 							for index in possibleGrids:
 								var grid = possibleGrids[index]
+								weights[8] *= 1.5
 								if grid == 0 || grid == 1 || grid == 2 || grid == 3 || grid == 4 || grid == 6 || grid == 7:
 									indexesToRemove.append(index)
 			

@@ -42,6 +42,10 @@ sources/1 = SubResource("TileSetAtlasSource_qvsni")
 
 [node name="Generator" type="Node2D"]
 script = ExtResource("1_a1ors")
+percentGrass = 25.0
+percentSand = 25.0
+percentStone = 25.0
+PercentWater = 25.0
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
