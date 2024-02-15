@@ -4,42 +4,61 @@ extends Node2D
 
 enum TILES {Copper, Coal, Grass, SandToGrass, Sand, SandToWater, Stone, StoneToGrass, Water}
 
-@export var percentGrass = 0.0
-@export var percentSand = 0.0
-@export var percentStone = 0.0
-@export var PercentWater = 0.0
-
 func _ready():
 	randomize()
 	generateNoise(Vector2(100, 100))
 
 func generateNoise(gridSize):
 	var noiseGen = FastNoiseLite.new()
+	noiseGen.seed = randi()
 	noiseGen.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	noiseGen.set_frequency(0.04)
+	noiseGen.set_frequency(0.03)
 	
 	for x in range(1, gridSize.x - 1):
 		for y in range(1, gridSize.y - 1):
-			var layers = [0.05, 0.05, 0.3925, 0.11, 0.3925, 0.11, 0.3925, 0.11, 0.3925]
-			var noise = -1
-			if noiseGen.get_noise_2d(x, y) < -1 + (layers[0]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 0), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 1), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 6), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3]):
+			# Stone, Grass, Sand, Water
+			var layers = [0.6, 0.4, 0.4, 0.6]
+			var noise = noiseGen.get_noise_2d(x, y)
+			
+			if noise < -1 + layers[0]:
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Stone), 0)
+			elif noise < -1 + layers[0] + layers[1]:
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Grass), 0)
+			elif noise < -1 + layers[0] + layers[1] + layers[2]:
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Sand), 0)
+			else:
+				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Water), 0)
+	
+	for x in range(1, gridSize.x - 1):
+		for y in range(1, gridSize.y - 1):
+			var neighbors = [
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x-1, y+1), true), # Bottom Left
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x-1, y), true), # Left
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x-1, y-1), true), # Top Left
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x, y-1), true), # Top
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x+1, y-1), true), # Top Right
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x+1, y), true), # Right
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x+1, y+1), true), # Bottom Right
+				$TileMap.get_cell_atlas_coords(0, Vector2i(x, y+1), true) #Bottom
+			]
+			
+			var tile = $TileMap.get_cell_atlas_coords(0, Vector2i(x, y), true) #Bottom
+			
+			if neighbors.has(Vector2i(0, 6)) and neighbors.has(Vector2i(0, 2)):
 				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 7), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 2), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5]):
+			elif neighbors.has(Vector2i(0, 2)) and neighbors.has(Vector2i(0, 4)):
 				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 3), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 4), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6] + layers[7]):
+			elif neighbors.has(Vector2i(0, 4)) and neighbors.has(Vector2i(0, 8)):
 				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 5), 0)
-			elif noiseGen.get_noise_2d(x, y) < -1 + (layers[0] + layers[1] + layers[2] + layers[3] + layers[4] + layers[5] + layers[6] + layers[7] + layers[8]):
-				$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 8), 0)
+	
+	for x in range(1, gridSize.x - 1):
+		for y in range(1, gridSize.y - 1):
+			if $TileMap.get_cell_atlas_coords(0, Vector2i(x, y), true) == Vector2i(0, 6):
+				var resourceRand = (randi() % 1000) + 1
+				if resourceRand < 100:
+					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 1), 0)
+				elif resourceRand < 100 + 50:
+					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 0), 0)
 
 func generateWaveFunctionCollapse(gridSize):
 	# Generate grid

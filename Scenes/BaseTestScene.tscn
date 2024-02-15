@@ -13,6 +13,7 @@
 top_level = true
 
 [node name="Player" parent="." instance=ExtResource("1_oa450")]
+position = Vector2(50, 50)
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 position_smoothing_enabled = true
