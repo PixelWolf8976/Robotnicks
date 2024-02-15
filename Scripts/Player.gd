@@ -10,7 +10,7 @@ signal staminaChanged()
 @export var reloadRate = 0.5
 @export var bullet = preload("res://Objects/PlayerLaser.tscn")
 
-var stamina = maxStamina
+var stamina
 var staminaBeingUsed = false
 var staminaTimer = 0.0
 var reloadTimer = 0.5
@@ -60,6 +60,8 @@ func getInput(delta):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_collision_mask_value(1, false)
+	stamina = maxStamina
+	emit_signal("staminaChanged", stamina)
 	pass # Replace with function body.
 
 

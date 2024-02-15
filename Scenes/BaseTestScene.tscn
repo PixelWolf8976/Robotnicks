@@ -7,12 +7,13 @@
 
 [node name="Node" type="Node"]
 
-[node name="Player" parent="." instance=ExtResource("1_oa450")]
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("2_6u5ba")]
 top_level = true
+
+[node name="Player" parent="." instance=ExtResource("1_oa450")]
+position = Vector2(1250, 1250)
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
 position_smoothing_enabled = true
