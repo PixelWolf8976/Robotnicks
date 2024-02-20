@@ -70,3 +70,6 @@ func _process(delta):
 	getInput(delta)
 	move_and_slide()
 	pass
+
+func _on_generator_move_player(newPositionX, newPositionY):
+	position = Vector2(newPositionX, newPositionY)

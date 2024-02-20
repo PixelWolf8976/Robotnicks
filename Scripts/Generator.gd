@@ -1,6 +1,7 @@
 extends Node2D
 
 # $TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, TILES.Copper), 0)
+signal movePlayer()
 
 enum TILES {Copper, Coal, Grass, SandToGrass, Sand, SandToWater, Stone, StoneToGrass, Water}
 
@@ -59,6 +60,14 @@ func generateNoise(gridSize):
 					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 1), 0)
 				elif resourceRand < 100 + 50:
 					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 0), 0)
+	
+	var leftBaseSide = gridSize.x/2
+	var topBaseSide = gridSize.y/2
+	
+	$TileMap.set_cell(0, Vector2i(leftBaseSide, topBaseSide), 0, Vector2i(0, 2), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide+1, topBaseSide), 0, Vector2i(0, 3), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide, topBaseSide+1), 0, Vector2i(0, 0), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide+1, topBaseSide+1), 0, Vector2i(0, 1), 0)
 
 func generateNoiseSeed(gridSize, seed):
 	var noiseGen = FastNoiseLite.new()
@@ -111,6 +120,14 @@ func generateNoiseSeed(gridSize, seed):
 					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 1), 0)
 				elif resourceRand < 100 + 50:
 					$TileMap.set_cell(0, Vector2i(x, y), 1, Vector2i(0, 0), 0)
+	
+	var leftBaseSide = gridSize.x/2
+	var topBaseSide = gridSize.y/2
+	
+	$TileMap.set_cell(0, Vector2i(leftBaseSide, topBaseSide), 0, Vector2i(0, 2), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide+1, topBaseSide), 0, Vector2i(0, 3), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide, topBaseSide+1), 0, Vector2i(0, 0), 0)
+	$TileMap.set_cell(0, Vector2i(leftBaseSide+1, topBaseSide+1), 0, Vector2i(0, 1), 0)
 
 func generateWaveFunctionCollapse(gridSize):
 	# Generate grid
